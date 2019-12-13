@@ -31,6 +31,16 @@ class RoboFile extends \Robo\Tasks
                 $migration->truncateTable($table);
             }
         }
+
+        $appPath = $this->testsAppPath();
+        $this->taskFilesystemStack()->remove($appPath.'/rbac')->run();
+
+        $this->devAfterInitProject();
     }
 
+    public function devAfterInitProject()
+    {
+        $appPath = $this->testsAppPath();
+        $this->taskFilesystemStack()->mkdir($appPath.'/rbac')->run();
+    }
 }

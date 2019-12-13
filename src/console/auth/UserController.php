@@ -1,8 +1,6 @@
 <?php
 namespace devskyfly\yiiModuleAuthSecurity\console\auth;
 
-use Yii;
-
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
 use devskyfly\yiiModuleAuthSecurity\models\auth\User;
@@ -25,28 +23,28 @@ class UserController extends Controller
         $options=[];
         
         switch ($actionID){
-            case "add":
-                $options[] = "login";
-                $options[] = "password";
-                $options[] = "email";
-                break;
-            case "disable":
-                $options[] = "login";
-                break;
-            case "enable":
-                $options[] = "login";
-                break;
-            case "set-password":
-                $options[] = "login";
-                $options[] = "password";
-                break;
-            case "set-email":
-                $options[] = "login";
-                $options[] = "email";
-                break;
-            case "delete":
-                $options[] = "login";
-                break;
+        case "add":
+            $options[] = "login";
+            $options[] = "password";
+            $options[] = "email";
+            break;
+        case "disable":
+            $options[] = "login";
+            break;
+        case "enable":
+            $options[] = "login";
+            break;
+        case "set-password":
+            $options[] = "login";
+            $options[] = "password";
+            break;
+        case "set-email":
+            $options[] = "login";
+            $options[] = "email";
+            break;
+        case "delete":
+            $options[] = "login";
+            break;
         }
         
         return $options;
@@ -55,7 +53,7 @@ class UserController extends Controller
     public function init()
     {
         parent::init();
-        if(!Cls::isSubClassOf(static::getUserClass(), IdentityInterface::class)){
+        if(!Cls::isSubClassOf(static::getUserClass(), IdentityInterface::class)) {
             throw new \InvalidArgumentException('Propoerty $user_cls is not sub class of '.IdentityInterface::class);
         }
     }
@@ -76,9 +74,11 @@ class UserController extends Controller
                 foreach ($users as $item) {
                     $itr++;
                     $status=$item['status']==$user_cls::STATUS_ACTIVE?'Y':'N';
-                    BaseConsole::output("{$itr}. {$status} {$item['username']}  ['{$item['email']}'] "
-                    .PHP_EOL."password_hash: {$item['password_hash']}"
-                    .PHP_EOL."auth_key: {$item['auth_key']}");
+                    BaseConsole::output(
+                        "{$itr}. {$status} {$item['username']}  ['{$item['email']}'] "
+                        .PHP_EOL."password_hash: {$item['password_hash']}"
+                        .PHP_EOL."auth_key: {$item['auth_key']}"
+                    );
                 }
             } else {
                 BaseConsole::output('User list is empty.');
@@ -115,7 +115,7 @@ class UserController extends Controller
             
             $user = $user_cls::findOne(["username"=>$user_name]);
             
-            if(Vrbl::isNull($user)){
+            if(Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
@@ -172,7 +172,7 @@ class UserController extends Controller
             
             $user = $user_cls::findOne(["username"=>$user_name]);
             
-            if(Vrbl::isNull($user)){
+            if(Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
@@ -227,9 +227,8 @@ class UserController extends Controller
             
             $user->status = $user_cls::STATUS_ACTIVE;
             
-            if( $user->validate() )
-            {
-                if( $user->update() ){
+            if($user->validate() ) {
+                if($user->update() ) {
                     BaseConsole::output("User '{$user->username}' was enabled.".PHP_EOL);
                 } else {
                     BaseConsole::output("Can't enable user '{$user->username}'.".PHP_EOL);
@@ -268,16 +267,15 @@ class UserController extends Controller
             
             $user=$user_cls::findOne(["username"=>$user_name]);
             
-            if(Vrbl::isNull($user)){
+            if(Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
             
             $user->status = $user_cls::STATUS_DELETED;
             
-            if($user->validate())
-            {
-                if($user->update()){
+            if($user->validate()) {
+                if($user->update()) {
                     BaseConsole::output("User '{$user->username}' was disabled.".PHP_EOL);
                 }else{
                     BaseConsole::output("Can't disable user '{$user->username}'.".PHP_EOL);
@@ -305,25 +303,26 @@ class UserController extends Controller
      * 
      * add --login= --email= --password=
      */
-    public function actionAdd(){
+    public function actionAdd()
+    {
         try{
             $user_cls = static::getUserClass();
 
             $user = new $user_cls();
             
-            if(Vrbl::isEmpty($this->login)){
+            if(Vrbl::isEmpty($this->login)) {
                 $user->username = BaseConsole::input("Insert user name:");
             }else{
                 $user->username = $this->login;
             }
             
-            if(Vrbl::isEmpty($this->email)){
+            if(Vrbl::isEmpty($this->email)) {
                 $user->email = BaseConsole::input("Insert email:");
             }else{
                 $user->email=$this->email;
             }
             
-            if(Vrbl::isEmpty($this->password)){
+            if(Vrbl::isEmpty($this->password)) {
                 $password_1 = BaseConsole::input("Insert password:");
                 $password_2 = BaseConsole::input("Password again:");
             }else{
@@ -331,7 +330,7 @@ class UserController extends Controller
                 $password_2 = $this->password;
             }
             
-            if($password_1!==$password_2){
+            if($password_1!==$password_2) {
                 BaseConsole::stdout("Passwords are not equal.");
                 return 0;
             }
@@ -339,9 +338,8 @@ class UserController extends Controller
             $user->setPassword($password_2);            
             $user->generateAuthKey();
             
-            if($user->validate())
-            {
-                if($user->insert()){
+            if($user->validate()) {
+                if($user->insert()) {
                     BaseConsole::output("User '{$user->username}' added.".PHP_EOL);
                 }else{
                     BaseConsole::output("Can't add user '{$user->username}'.".PHP_EOL);
@@ -367,7 +365,8 @@ class UserController extends Controller
      * Delete user from system.
      * --login
      */
-    public function actionDelete(){
+    public function actionDelete()
+    {
         try{
             $user_cls = static::getUserClass();
             
@@ -380,11 +379,12 @@ class UserController extends Controller
             $model=$user_cls::find()->where(['username'=>$user_name])->one();
             
             if(BaseConsole::confirm("Are you sure?")
-                &&BaseConsole::confirm("Are you realy sure?")){
-                if(is_null($model)){
+                &&BaseConsole::confirm("Are you realy sure?")
+            ) {
+                if(is_null($model)) {
                     BaseConsole::output("No such user '$user_name'.".PHP_EOL);
                 }else{
-                    if($model->delete()){
+                    if($model->delete()) {
                         BaseConsole::output("User '$user_name' was deleted.");
                     }else{
                         BaseConsole::output("Can't delete $user_name.");
@@ -406,19 +406,21 @@ class UserController extends Controller
     /**
      * Delete all users from system.
      */
-    public function actionDeleteAll(){
+    public function actionDeleteAll()
+    {
         try{
             $user_cls = static::getUserClass();
             
             if(BaseConsole::confirm("Are you sure?")
-                &&(BaseConsole::confirm("Are you realy sure?"))){
-                    try{
-                        $user_cls::deleteAll();
-                        BaseConsole::output('Users were droped.'.PHP_EOL);
-                    }catch(\Exception $e){
-                        BaseConsole::output("Can\'t drop all users.".PHP_EOL);
-                        throw $e;
-                    }
+                &&(BaseConsole::confirm("Are you realy sure?"))
+            ) {
+                try{
+                    $user_cls::deleteAll();
+                    BaseConsole::output('Users were droped.'.PHP_EOL);
+                }catch(\Exception $e){
+                    BaseConsole::output("Can\'t drop all users.".PHP_EOL);
+                    throw $e;
+                }
             }else{
                 BaseConsole::output("You discard this action.");
             }
