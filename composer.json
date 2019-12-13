@@ -1,0 +1,27 @@
+{
+	"name" : "devskyfly/yii-module-auth-security",
+	"type": "yii2-extension",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Ivan",
+			"email" : "devskyfly@gmail.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"require" : {
+		"php" : ">=5.6.0",
+		"yiisoft/yii2" : "~2.0.14",
+		"yiisoft/yii2-bootstrap": "^2.0",
+		"devskyfly/yii-module-admin-panel": "dev-feature_tests"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"devskyfly\\yiiModuleAuthSecurity\\" : "src"
+		}
+	},
+	"require-dev": {
+		"codeception/codeception": "^3.1",
+		"consolidation/robo": "^1.0.0",
+		"devskyfly/robocmd": "^v1.0.0"
+	}
+}
