@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08e0a53496a89e907fba1146f023153f",
+    "content-hash": "e0808fb6b0f18a897236354ec14aa542",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -316,16 +316,16 @@
         },
         {
             "name": "devskyfly/yii-module-admin-panel",
-            "version": "dev-feature_tests",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devskyfly/yii-module-admin-panel.git",
-                "reference": "4438a1c437343f5c0df975b0e3f9d65843235957"
+                "reference": "c79dffaa724b2a5c85a6163b40a79265fac99089"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devskyfly/yii-module-admin-panel/zipball/4438a1c437343f5c0df975b0e3f9d65843235957",
-                "reference": "4438a1c437343f5c0df975b0e3f9d65843235957",
+                "url": "https://api.github.com/repos/devskyfly/yii-module-admin-panel/zipball/c79dffaa724b2a5c85a6163b40a79265fac99089",
+                "reference": "c79dffaa724b2a5c85a6163b40a79265fac99089",
                 "shasum": ""
             },
             "require": {
@@ -359,7 +359,7 @@
                     "email": "devskyfly@gmail.com"
                 }
             ],
-            "time": "2019-12-12T07:35:52+00:00"
+            "time": "2019-12-19T07:42:28+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
