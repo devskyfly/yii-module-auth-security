@@ -1,5 +1,4 @@
 <?php
-
 namespace devskyfly\yiiModuleAuthSecurity\models\auth;
 
 use Yii;
