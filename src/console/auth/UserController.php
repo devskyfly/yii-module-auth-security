@@ -4,7 +4,7 @@ namespace devskyfly\yiiModuleAuthSecurity\console\auth;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
 use devskyfly\yiiModuleAuthSecurity\models\auth\User;
-
+use devskyfly\yiiModuleAuthSecurity\components\UserManager;
 use yii\console\Controller;
 use yii\helpers\BaseConsole;
 use yii\web\IdentityInterface;
@@ -20,7 +20,7 @@ class UserController extends Controller
     
     public function options($actionID)
     {
-        $options=[];
+        $options = [];
         
         switch ($actionID){
         case "add":
@@ -53,6 +53,7 @@ class UserController extends Controller
     public function init()
     {
         parent::init();
+
         if(!Cls::isSubClassOf(static::getUserClass(), IdentityInterface::class)) {
             throw new \InvalidArgumentException('Propoerty $user_cls is not sub class of '.IdentityInterface::class);
         }
@@ -66,7 +67,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         try {
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             $users = $user_cls::find()->orderBy('username')->all();
             $itr = 0;
             
@@ -83,11 +84,10 @@ class UserController extends Controller
             } else {
                 BaseConsole::output('User list is empty.');
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
-        }
-        catch (\Throwable $e){
+        } catch (\Throwable $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
         }
@@ -104,7 +104,7 @@ class UserController extends Controller
     public function actionSetPassword()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             
             if (empty($this->login)) {
                 $user_name = BaseConsole::prompt('Enter user name:');
@@ -115,7 +115,7 @@ class UserController extends Controller
             
             $user = $user_cls::findOne(["username"=>$user_name]);
             
-            if(Vrbl::isNull($user)) {
+            if (Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
@@ -133,26 +133,24 @@ class UserController extends Controller
                 return ExitCode::UNSPECIFIED_ERROR;
             }
             
-            $user->setPassword($password_2);
-            $user->generateAuthKey();
+            $result = UserManager::setPassword($user, $password_2);
             
-            if ($user->validate()) {
-                if ($user->update()) {
-                    BaseConsole::output("User '{$user->username}' password was updated.".PHP_EOL);
-                } else {
-                    BaseConsole::output("Can't update user '{$user->username}' password.".PHP_EOL);
-                }
+            if ($result) {
+                BaseConsole::output("User '{$user->username}' email was updated.".PHP_EOL);
             } else {
-                BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
-                
-                foreach ($user->errors as $error_key=>$error_item){
-                    BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                BaseConsole::output("Can't update user '{$user->username}' email.".PHP_EOL);
+                $errors = $user->errors;
+                if (count($errors > 0)) {
+                    BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
+                    foreach ($errors as $error_key=>$error_item) {
+                        BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                    }
                 }
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
-        }catch (\Throwable $e){
+        } catch (\Throwable $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
         }
@@ -166,33 +164,34 @@ class UserController extends Controller
     public function actionSetEmail()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             
             $user_name = BaseConsole::prompt('Enter user name:');
             
             $user = $user_cls::findOne(["username"=>$user_name]);
             
-            if(Vrbl::isNull($user)) {
+            if (Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
             
             $email = BaseConsole::prompt("Insert email:");
-            $user->email=$email;
+            $result = UserManager::setEmail($user, $email);
             
-            if ($user->validate()) {
-                if ($user->update()) {
-                    BaseConsole::output("User '{$user->username}' email was updated.".PHP_EOL);
-                } else {
-                    BaseConsole::output("Can't update user '{$user->username}' email.".PHP_EOL);
-                }
+            
+            if ($result) {
+                BaseConsole::output("User '{$user->username}' email was updated.".PHP_EOL);
             } else {
-                BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
-                
-                foreach ($user->errors as $error_key=>$error_item){
-                    BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                BaseConsole::output("Can't update user '{$user->username}' email.".PHP_EOL);
+                $errors = $user->errors;
+                if (count($errors > 0)) {
+                    BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
+                    foreach ($errors as $error_key=>$error_item) {
+                        BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                    }
                 }
             }
+            
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
@@ -210,7 +209,7 @@ class UserController extends Controller
     public function actionEnable()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             
             if (empty($this->login)) {
                 $user_name = BaseConsole::input("Insert user name:");
@@ -218,28 +217,28 @@ class UserController extends Controller
                 $user_name = $this->login;
             };
             
-            $user=$user_cls::findOne(["username"=>$user_name]);
+            $user = $user_cls::findOne(["username"=>$user_name]);
             
             if (Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
             
-            $user->status = $user_cls::STATUS_ACTIVE;
-            
-            if($user->validate() ) {
-                if($user->update() ) {
-                    BaseConsole::output("User '{$user->username}' was enabled.".PHP_EOL);
-                } else {
-                    BaseConsole::output("Can't enable user '{$user->username}'.".PHP_EOL);
-                }
+            $result = UserManager::enable($user);
+
+            if ($result) {
+                BaseConsole::output("User '{$user->username}' was enabled.".PHP_EOL);
             } else {
-                BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
-                
-                foreach ($user->errors as $error_key=>$error_item){
-                    BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                BaseConsole::output("Can't enable user '{$user->username}'.".PHP_EOL);
+                $errors = $user->errors;
+                if (count($errors > 0)) {
+                    BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
+                    foreach ($errors as $error_key=>$error_item) {
+                        BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                    }
                 }
             }
+            
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
@@ -257,7 +256,7 @@ class UserController extends Controller
     public function actionDisable()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             
             if (empty($this->login)) {
                 $user_name = BaseConsole::input("Insert user name:");
@@ -265,28 +264,28 @@ class UserController extends Controller
                 $user_name = $this->login;
             };
             
-            $user=$user_cls::findOne(["username"=>$user_name]);
+            $user = $user_cls::findOne(["username"=>$user_name]);
             
-            if(Vrbl::isNull($user)) {
+            if (Vrbl::isNull($user)) {
                 BaseConsole::stdout("There is no such user '{$user_name}'.".PHP_EOL);
                 return ExitCode::UNSPECIFIED_ERROR;
             }
             
-            $user->status = $user_cls::STATUS_DELETED;
-            
-            if($user->validate()) {
-                if($user->update()) {
-                    BaseConsole::output("User '{$user->username}' was disabled.".PHP_EOL);
-                }else{
-                    BaseConsole::output("Can't disable user '{$user->username}'.".PHP_EOL);
-                }
-            }else{
-                BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
-                
-                foreach ($user->errors as $error_key=>$error_item){
-                    BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+            $result = UserManager::disable($user);
+
+            if ($result) {
+                BaseConsole::output("User '{$user->username}' was enabled.".PHP_EOL);
+            } else {
+                BaseConsole::output("Can't enable user '{$user->username}'.".PHP_EOL);
+                $errors = $user->errors;
+                if (count($errors > 0)) {
+                    BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
+                    foreach ($errors as $error_key=>$error_item) {
+                        BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                    }
                 }
             }
+            
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
@@ -306,52 +305,50 @@ class UserController extends Controller
     public function actionAdd()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
 
             $user = new $user_cls();
             
-            if(Vrbl::isEmpty($this->login)) {
+            if (Vrbl::isEmpty($this->login)) {
                 $user->username = BaseConsole::input("Insert user name:");
-            }else{
+            } else {
                 $user->username = $this->login;
             }
             
-            if(Vrbl::isEmpty($this->email)) {
+            if (Vrbl::isEmpty($this->email)) {
                 $user->email = BaseConsole::input("Insert email:");
-            }else{
+            } else {
                 $user->email=$this->email;
             }
             
-            if(Vrbl::isEmpty($this->password)) {
+            if (Vrbl::isEmpty($this->password)) {
                 $password_1 = BaseConsole::input("Insert password:");
                 $password_2 = BaseConsole::input("Password again:");
-            }else{
+            } else {
                 $password_1 = $this->password;
                 $password_2 = $this->password;
             }
             
-            if($password_1!==$password_2) {
+            if ($password_1!==$password_2) {
                 BaseConsole::stdout("Passwords are not equal.");
                 return 0;
             }
 
-            $user->setPassword($password_2);            
-            $user->generateAuthKey();
+            $result = UserManager::add($user, $password_2);
             
-            if($user->validate()) {
-                if($user->insert()) {
-                    BaseConsole::output("User '{$user->username}' added.".PHP_EOL);
-                }else{
-                    BaseConsole::output("Can't add user '{$user->username}'.".PHP_EOL);
-                }
-            }else{
-                BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
-                
-                foreach ($user->errors as $error_key=>$error_item){
-                    BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+            if ($result) {
+                BaseConsole::output("User '{$user->username}' added.".PHP_EOL);
+            } else {
+                BaseConsole::output("Can't add user '{$user->username}'.".PHP_EOL);
+                $errors = $user->errors;
+                if (count($errors > 0)) {
+                    BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
+                    foreach ($errors as $error_key=>$error_item) {
+                        BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
+                    }
                 }
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
             return ExitCode::UNSPECIFIED_ERROR;
         }catch (\Throwable $e){
@@ -368,7 +365,7 @@ class UserController extends Controller
     public function actionDelete()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             
             if (empty($this->login)) {
                 $user_name = BaseConsole::input("Insert user name:");
@@ -409,7 +406,7 @@ class UserController extends Controller
     public function actionDeleteAll()
     {
         try{
-            $user_cls = static::getUserClass();
+            $user_cls = UserManager::getIdentityCls();
             
             if(BaseConsole::confirm("Are you sure?")
                 &&(BaseConsole::confirm("Are you realy sure?"))

@@ -3,6 +3,7 @@ namespace devskyfly\yiiModuleAuthSecurity;
 
 use Yii;
 
+
 class Module extends \yii\base\Module
 {   
 
@@ -14,7 +15,7 @@ class Module extends \yii\base\Module
         Yii::setAlias("@devskyfly/yiiModuleAuthSecurity", __DIR__);
         
         /**
-         * Define controller namespace for console application
+         * Define controller namespace for console application.
          */
         if (Yii::$app instanceof \yii\console\Application) {
             $this->controllerNamespace = 'devskyfly\yiiModuleAuthSecurity\console';

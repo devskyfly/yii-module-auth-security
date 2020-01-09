@@ -28,8 +28,6 @@ class UserControllerCest
     }
 
     /**
-     * Undocumented function
-     *
      * @depends tryAdd
      * @param FunctionalTester $I
      * @return void

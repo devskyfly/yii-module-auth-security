@@ -1,4 +1,4 @@
 <?php
 return [
-    "class" => "devskyfly\yiiModuleAuthSecurity\Module"
+    "class" => "devskyfly\yiiModuleAuthSecurity\Module",
 ] ;
