@@ -2,7 +2,7 @@
 
 use devskyfly\yiiModuleAuthSecurity\models\auth\User;
 
-class UserControllerCest
+class UserConsoleControllerCest
 {
     public $adminLogin = "admin";
 

@@ -12,7 +12,7 @@ settings:
 modules:
     config:
         Yii2:
-            transaction: false
+            transaction: true
             part: [orm, fixtures]
             cleanup: false
             configFile: 'tests/app/config/config.php'

@@ -29,6 +29,7 @@ class RoboFile extends \Robo\Tasks
                 $this->say("Truncate table: {$table}");
                 $migration = new Migration();
                 $migration->truncateTable($table);
+                $this->say($table);
             }
         }
 
