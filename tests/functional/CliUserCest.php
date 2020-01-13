@@ -2,7 +2,7 @@
 
 use devskyfly\yiiModuleAuthSecurity\models\auth\User;
 
-class UserConsoleControllerCest
+class CliUserCest
 {
     public $adminLogin = "admin";
 
@@ -12,13 +12,9 @@ class UserConsoleControllerCest
     
     public $adminNewPassword = "1234567";
 
-    public function _before(FunctionalTester $I)
-    {
-
-    }
-
     public function tryAdd(FunctionalTester $I)
     {
+        $I->runShellCommand("robo tests:clear");
         $I->runShellCommand("./yii auth-security/auth/user/index");
         $I->runShellCommand("./yii auth-security/auth/user/add --login={$this->adminLogin} --email={$this->adminEmail} --password={$this->adminPassword}");
         $I->assertEquals(1, User::find()->where([])->count());

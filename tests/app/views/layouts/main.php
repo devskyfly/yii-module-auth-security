@@ -11,6 +11,9 @@ use yii\helpers\Html;
 <?php $this->head() ?>
 </head>
 <body>
+<header>
+    <?=$this->render('_header');?>
+</header>
 <?php $this->beginBody() ?>
     <?= $content ?>
 <?php $this->endBody() ?>

@@ -9,6 +9,10 @@ class Module extends \yii\base\Module
 
     const CSS_NAMESPACE = 'devskyfly-yii-module-auth-security';
 
+    public $loginTitle = "Login page";
+    public $loginKeywords = "Login keywords";
+    public $loginDescription = "Login description";
+
     public function init()
     {
         parent::init();

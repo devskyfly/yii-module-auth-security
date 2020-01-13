@@ -13,6 +13,6 @@ modules:
     config:
         Yii2:
             transaction: true
-            part: [orm, fixtures]
+            #part: [init, orm, fixtures]
             cleanup: false
             configFile: 'tests/app/config/config.php'

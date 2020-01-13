@@ -4,6 +4,7 @@ namespace devskyfly\yiiModuleAuthSecurity\controllers;
 use Yii;
 use yii\web\Controller;
 use devskyfly\yiiModuleAuthSecurity\models\auth\LoginForm;
+use devskyfly\yiiModuleAuthSecurity\Module;
 
 class AuthController extends Controller
 {
@@ -14,6 +15,17 @@ class AuthController extends Controller
      */
     public function actionLogin()
     {
+        $module = Module::getInstance();
+
+        $title = $module->loginTitle;
+        $keywords = $module->loginKeywords;
+        $description = $module->loginDescription;
+
+        $view = $this->view;
+        $view->title = $title;
+        $view->registerMetaTag(['name' => 'keywords', 'content' => $keywords]);
+        $view->registerMetaTag(['name' => 'description', 'content' => $description]);
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -26,6 +38,9 @@ class AuthController extends Controller
 
             return $this->render('login', [
                 'model' => $model,
+                /*'title' => $title,
+                'keywords' => $keywords,
+                'description' => $description*/
             ]);
         }
     }
@@ -38,7 +53,6 @@ class AuthController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 }

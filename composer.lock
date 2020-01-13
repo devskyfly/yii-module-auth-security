@@ -2010,16 +2010,16 @@
         },
         {
             "name": "devskyfly/robocmd",
-            "version": "v1.1.6",
+            "version": "v1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devskyfly/robocmd.git",
-                "reference": "e5ae8704e9433acc07d4841fc4e549f70cdfbe94"
+                "reference": "03439f3ec8bc76251f70bc5af1576ac5eab240ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devskyfly/robocmd/zipball/e5ae8704e9433acc07d4841fc4e549f70cdfbe94",
-                "reference": "e5ae8704e9433acc07d4841fc4e549f70cdfbe94",
+                "url": "https://api.github.com/repos/devskyfly/robocmd/zipball/03439f3ec8bc76251f70bc5af1576ac5eab240ec",
+                "reference": "03439f3ec8bc76251f70bc5af1576ac5eab240ec",
                 "shasum": ""
             },
             "require-dev": {
@@ -2042,7 +2042,7 @@
                 }
             ],
             "description": "Assets of commands.",
-            "time": "2020-01-09T14:28:31+00:00"
+            "time": "2020-01-10T05:51:22+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

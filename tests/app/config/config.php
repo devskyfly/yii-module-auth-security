@@ -33,5 +33,8 @@ return [
                 'enableCsrfValidation' => false,
                 ]
         ]),
-    'modules' => array_merge($modules, [])
+    'modules' => array_merge($modules, []),
+    'bootstrap' => [
+        'auth-security'
+    ]
 ];
