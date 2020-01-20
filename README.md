@@ -38,3 +38,29 @@ Config app modules
 	] 
 ]
 ```
+
+Config app controller
+
+```php
+public function actions()
+{
+	return [
+		'error' => [
+			'class' => ErrorAction::class,
+		],
+		'login' => [
+			'class' => LoginAction::class
+		],
+		'logout' => [
+			'class' => LogoutAction::class
+		],
+	];
+}
+```
+
+Config login view
+
+```php
+use devskyfly\yiiModuleAuthSecurity\widgets\auth\LoginForm;
+echo LoginForm::widget(compact("model"));
+```
