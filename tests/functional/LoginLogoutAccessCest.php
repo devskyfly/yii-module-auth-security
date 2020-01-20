@@ -39,7 +39,7 @@ class LoginLogoutAccessCest
      */
     public function loginAndLogout(FunctionalTester $I)
     {
-        $I->amOnPage(['auth-security/auth/login']);
+        $I->amOnPage(['site/login']);
         $I->see('Login form');
 
         $I->submitForm('#login-form', [

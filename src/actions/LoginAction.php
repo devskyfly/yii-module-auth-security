@@ -1,19 +1,16 @@
 <?php
-namespace devskyfly\yiiModuleAuthSecurity\controllers;
+namespace devskyfly\yiiModuleAuthSecurity\actions;
 
 use Yii;
-use yii\web\Controller;
+use yii\base\Action;
 use devskyfly\yiiModuleAuthSecurity\models\auth\LoginForm;
 use devskyfly\yiiModuleAuthSecurity\Module;
 
-class AuthController extends Controller
+class LoginAction extends Action
 {
-    /**
-     * Login action.
-     *
-     * @return string
-     */
-    public function actionLogin()
+    public $view;
+
+    public function run()
     {
         $module = Module::getInstance();
 
@@ -21,7 +18,7 @@ class AuthController extends Controller
         $keywords = $module->loginKeywords;
         $description = $module->loginDescription;
 
-        $view = $this->view;
+        $view = $this->controller->view;
         $view->title = $title;
         $view->registerMetaTag(['name' => 'keywords', 'content' => $keywords]);
         $view->registerMetaTag(['name' => 'description', 'content' => $description]);
@@ -32,27 +29,13 @@ class AuthController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->controller->goBack();
         } else {
             $model->password = '';
 
-            return $this->render('login', [
+            return $this->controller->render('login', [
                 'model' => $model,
-                /*'title' => $title,
-                'keywords' => $keywords,
-                'description' => $description*/
             ]);
         }
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return string
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-        return $this->goHome();
     }
 }

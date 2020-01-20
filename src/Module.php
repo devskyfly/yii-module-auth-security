@@ -26,4 +26,8 @@ class Module extends \yii\base\Module
         } 
     }
     
+    public static function tablesPrefix()
+    {
+        return "auth_security";
+    } 
 }

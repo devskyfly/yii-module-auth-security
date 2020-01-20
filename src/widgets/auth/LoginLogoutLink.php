@@ -1,8 +1,8 @@
 <?php
 namespace devskyfly\yiiModuleAuthSecurity\widgets\auth;
 
+use Yii;
 use yii\base\Widget;
-use devskyfly\yiiModuleAuthSecurity\Module;
 use yii\helpers\Url;
 
 class LoginLogoutLink extends Widget
@@ -14,10 +14,9 @@ class LoginLogoutLink extends Widget
     
     public function run()
     {
-        $module = Module::getInstance();
-        $moduleId = $module->id;
-        $loginUrl = Url::toRoute(['/'.$moduleId.'/auth/login']);
-        $logoutUrl = Url::toRoute(['/'.$moduleId.'/auth/logout']);
+        $url = Yii::$app->user->loginUrl;
+        $loginUrl = Url::toRoute($url);
+        $logoutUrl = Url::toRoute(['/site/logout']);
         return $this->render('login-logout-link', compact("loginUrl", "logoutUrl"));
     }
 }

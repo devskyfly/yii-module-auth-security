@@ -1,8 +1,13 @@
 <?php
 namespace app\controllers;
 
+use devskyfly\yiiModuleAuthSecurity\actions\LoginAction;
+use devskyfly\yiiModuleAuthSecurity\actions\LogoutAction;
+use devskyfly\yiiModuleAuthSecurity\filters\auth\IsAdmin;
+use devskyfly\yiiModuleAuthSecurity\filters\auth\IsAuth;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ErrorAction;
 
 class SiteController extends Controller
 {
@@ -11,14 +16,22 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['admin-page', 'logout'],
+                'except' => [ 'login', 'logout', 'admin-page', 'user-page', 'index'],
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@']
-                    ]
+                    ],
                 ]
-            ]
+            ],
+            'isAdmin' => [
+                'class' => IsAdmin::class,
+                'only' => ['admin-page'],          
+            ],
+            'isAuth' => [
+                'class' => IsAuth::class,
+                'only' => ['auth-page'],          
+            ],
         ];
     }
 
@@ -26,7 +39,13 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => ErrorAction::class,
+            ],
+            'login' => [
+                'class' => LoginAction::class
+            ],
+            'logout' => [
+                'class' => LogoutAction::class
             ],
         ];
     }
@@ -80,5 +99,22 @@ class SiteController extends Controller
         ]);
         
         return $this->render("user-page");
+    }
+
+    public function actionAuthPage()
+    {
+        $this->view->title = "Auth page";
+
+        $this->view->registerMetaTag([
+            'name' => 'description',
+            'content' => 'auth page description'
+        ]);
+
+        $this->view->registerMetaTag([
+            'name' => 'keywords',
+            'content' => 'auth page keywords'
+        ]);
+        
+        return $this->render("auth-page");
     }
 }

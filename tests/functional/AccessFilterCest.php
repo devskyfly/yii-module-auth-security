@@ -2,7 +2,7 @@
 
 use devskyfly\yiiModuleAuthSecurity\models\auth\User;
 
-class FiltersCest
+class AccessFiltersCest
 {
     public $adminLogin = "admin";
 
@@ -10,9 +10,10 @@ class FiltersCest
 
     public $adminPassword = "123456";
 
-    public function addAdmin(FunctionalTester $I)
+    public function addUser(FunctionalTester $I)
     {
         $I->runShellCommand("robo tests:clear");
+
         $I->runShellCommand("./yii auth-security/auth/user/index");
         $I->runShellCommand("./yii auth-security/auth/user/add --login={$this->adminLogin} --email={$this->adminEmail} --password={$this->adminPassword}");
         $I->assertEquals(1, User::find()->where([])->count());
@@ -22,13 +23,13 @@ class FiltersCest
     }
 
     /**
-     * @depends addAdmin
+     * @depends addUser
      * @param FunctionalTester $I
      * @return void
      */
     public function adminPage(FunctionalTester $I)
     {
-        $I->amOnPage(['site/admin-page']);
+        $I->amOnPage(['site/auth-page']);
         $I->see('Login form');
 
         $I->submitForm('#login-form', [
@@ -36,6 +37,6 @@ class FiltersCest
             'LoginForm[password]' => $this->adminPassword
         ]);
 
-        $I->see('Admin page');
+        $I->see('Auth page');
     }
 }

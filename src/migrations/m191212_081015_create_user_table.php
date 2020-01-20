@@ -1,6 +1,7 @@
 <?php
 
 use devskyfly\yiiModuleAuthSecurity\migrations\helpers\UserMigrationHelper;
+use devskyfly\yiiModuleAuthSecurity\Module;
 use yii\db\Migration;
 
 /**
@@ -14,7 +15,7 @@ class m191212_081015_create_user_table extends Migration
     public function safeUp()
     {
         $userHelper = new UserMigrationHelper();
-        $this->createTable('auth_security_user', $userHelper->getFieldsDefinition());
+        $this->createTable(Module::tablesPrefix().'_user', $userHelper->getFieldsDefinition());
     }
 
     /**
@@ -22,6 +23,6 @@ class m191212_081015_create_user_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('auth_security_user');
+        $this->dropTable(Module::tablesPrefix().'_user');
     }
 }

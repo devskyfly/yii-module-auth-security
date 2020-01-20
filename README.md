@@ -1,38 +1,40 @@
-## Yii2 Module Extension Template
+## Yii2 Module Auth and Security
 
-### Settings
+### Install
 
-1. Set in composer.json properties "name"
-
-2. Set in composer.json "autoload/psr-4" (vendor//package//)
-
-```json
-{
-    "autoload" : {
-		"psr-4" : {
-			"" : "src"
-		}
-    },
-}
-```
-
-3. Set db connection properties tests/app/config/components/db.php (dbname, user, password)
-4. Define testsClear method, this method invokes before tests runs.
-
-##  Init
-
-1. Execute
+Composer
 
 ```bash
-composer install
+composer require devskyfly/yii-module-auth-security
 ```
 
-2. Execute
+Migrations
 
 ```bash
-robo dev:init-project 
+./yii migrate --migrationPath="vendor/devskyfly/yiiModuleAuthSecurity/migrations"
 ```
 
-3. Rm or edit src/Module.php
+Config app components
 
-4. Start development
+```php
+[
+	'authManager' => [
+    	'class' => 'yii\rbac\PhpManager'
+	],
+	'user' => [
+		'class' => 'yii\web\User',
+		'identityClass' => 'devskyfly\yiiModuleAuthSecurity\models\auth\User',
+		'loginUrl' => ['/site/login']
+	]
+]
+```
+
+Config app modules
+
+```php
+[
+	'auth-security' => [
+    	"class" => "devskyfly\yiiModuleAuthSecurity\Module",
+	] 
+]
+```
