@@ -24,7 +24,7 @@ class LoginAction extends Action
         $view->registerMetaTag(['name' => 'description', 'content' => $description]);
 
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->controller->goHome();
         }
 
         $loginForm = new LoginForm();
