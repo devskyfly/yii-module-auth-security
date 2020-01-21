@@ -27,14 +27,15 @@ class LoginAction extends Action
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $loginForm = new LoginForm();
+        
+        if ($loginForm->load(Yii::$app->request->post()) && $loginForm->login()) {
             return $this->controller->goBack();
         } else {
-            $model->password = '';
+            $loginForm->password = '';
 
             return $this->controller->render('login', [
-                'model' => $model,
+                'loginForm' => $loginForm,
             ]);
         }
     }

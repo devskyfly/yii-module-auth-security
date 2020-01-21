@@ -14,6 +14,22 @@ Migrations
 ./yii migrate --migrationPath="vendor/devskyfly/yiiModuleAuthSecurity/migrations"
 ```
 
+### Config
+
+Config app access
+```php
+'as accessfilter' => [
+	'class' => 'yii\filters\AccessControl',
+	'except' => [ 'site/login'],
+	'rules' => [
+		[
+			'allow' => true,
+			'roles' => ['@']
+		],
+	]
+]
+```
+
 Config app components
 
 ```php
@@ -32,9 +48,12 @@ Config app components
 Config app modules
 
 ```php
-[
+'modules' => [
 	'auth-security' => [
-    	"class" => "devskyfly\yiiModuleAuthSecurity\Module",
+		"class" => "devskyfly\yiiModuleAuthSecurity\Module",
+		"loginTitle" = "Login page";
+    	"loginKeywords" = "Login keywords";
+    	"loginDescription" = "Login description";
 	] 
 ]
 ```
@@ -58,9 +77,9 @@ public function actions()
 }
 ```
 
-Config login view
+Config app login view by creating file /views/site/login.php
 
 ```php
 use devskyfly\yiiModuleAuthSecurity\widgets\auth\LoginForm;
-echo LoginForm::widget(compact("model"));
+echo LoginForm::widget(compact("loginForm"));
 ```

@@ -11,20 +11,20 @@ class LoginForm extends Widget
      * 
      * @var LoginForm
      */
-    public $model = null;
+    public $loginForm = null;
     
     public function init()
     {
         parent::init();
-        if (!Obj::isA($this->model, LoginFormModel::class)) {
-            throw new \InvalidArgumentException('Property $model is not '.LoginFormModel::class.' type.'); 
+        if (!Obj::isA($this->loginForm, LoginFormModel::class)) {
+            throw new \InvalidArgumentException('Property $loginForm is not '.LoginFormModel::class.' type.'); 
         }
     }
     
     public function run()
     {
-        $model=$this->model;
-        return $this->render('login-form',compact("model"));
+        $loginForm = $this->loginForm;
+        return $this->render('login-form', compact("loginForm"));
     }
 }
 

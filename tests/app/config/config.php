@@ -35,6 +35,17 @@ return [
         ]),
     'modules' => array_merge($modules, []),
     'bootstrap' => [
+        'admin-panel',
         'auth-security'
+    ],
+    'as accessfilter' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => [ 'site/login'],
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['@']
+            ],
+        ]
     ]
 ];

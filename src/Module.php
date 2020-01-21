@@ -7,6 +7,7 @@ use Yii;
 class Module extends \yii\base\Module
 {   
 
+    const TITLE = "Аутентификация и безопасность";
     const CSS_NAMESPACE = 'devskyfly-yii-module-auth-security';
 
     public $loginTitle = "Login page";
@@ -29,5 +30,10 @@ class Module extends \yii\base\Module
     public static function tablesPrefix()
     {
         return "auth_security";
-    } 
+    }
+
+    public static function getRoute()
+    {
+        return "/".(Module::getInstance())->id;
+    }
 }

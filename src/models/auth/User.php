@@ -1,6 +1,7 @@
 <?php
 namespace devskyfly\yiiModuleAuthSecurity\models\auth;
 
+use devskyfly\yiiModuleAuthSecurity\Module;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -32,7 +33,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return 'auth_security_user';
+        return Module::tablesPrefix().'_user';
     }
     
     /**
