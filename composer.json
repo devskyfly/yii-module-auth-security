@@ -17,7 +17,7 @@
 	"autoload" : {
 		"psr-4" : {
 			"devskyfly\\yiiModuleAuthSecurity\\" : "src",
-			"devskyfly\\yiiModule\\" : "mdl/"
+			"devskyfly\\yiiModule\\" : "mdl/src"
 		}
 	},
 	"require-dev": {

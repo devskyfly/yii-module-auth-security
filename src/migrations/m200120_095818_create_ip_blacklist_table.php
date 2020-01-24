@@ -1,5 +1,4 @@
 <?php
-
 use devskyfly\yiiModuleAuthSecurity\Module;
 use devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\EntityMigrationHelper;
 
@@ -22,6 +21,7 @@ class m200120_095818_create_ip_blacklist_table extends EntityMigrationHelper
      */
     public function safeDown()
     {
+        $prefix = Module::tablesPrefix();
         $this->dropTable($prefix.'_ip_blacklist');
     }
     

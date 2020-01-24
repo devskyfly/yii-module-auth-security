@@ -55,8 +55,7 @@ class RbcFilterCest
             'LoginForm[password]' => $this->adminPassword
         ]);
 
-        //$I->see('Admin page');
-        $I->see('Index page');
+        $I->see('Admin page');
     }
 
     /**

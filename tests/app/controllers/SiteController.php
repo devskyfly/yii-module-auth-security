@@ -3,27 +3,19 @@ namespace app\controllers;
 
 use devskyfly\yiiModuleAuthSecurity\actions\LoginAction;
 use devskyfly\yiiModuleAuthSecurity\actions\LogoutAction;
+use devskyfly\yiiModuleAuthSecurity\components\UserManager;
 use devskyfly\yiiModuleAuthSecurity\filters\auth\IsAdmin;
 use devskyfly\yiiModuleAuthSecurity\filters\auth\IsAuth;
+use devskyfly\yiiModuleAuthSecurity\models\auth\User;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 
 class SiteController extends Controller
 {
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::class,
-                'except' => [ 'login', 'logout', 'admin-page', 'user-page', 'index'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@']
-                    ],
-                ]
-            ],
             'isAdmin' => [
                 'class' => IsAdmin::class,
                 'only' => ['admin-page'],          
@@ -33,7 +25,7 @@ class SiteController extends Controller
                 'only' => ['auth-page'],          
             ]
         ];
-    }*/
+    }
 
     public function actions()
     {

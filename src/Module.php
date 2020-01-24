@@ -1,32 +1,67 @@
 <?php
 namespace devskyfly\yiiModuleAuthSecurity;
 
-use Yii;
+use devskyfly\yiiModule\AbstractModule;
 
-
-class Module extends \yii\base\Module
+class Module extends AbstractModule
 {   
-
-    const TITLE = "Аутентификация и безопасность";
-    const CSS_NAMESPACE = 'devskyfly-yii-module-auth-security';
 
     public $loginTitle = "Login page";
     public $loginKeywords = "Login keywords";
     public $loginDescription = "Login description";
+    
 
-    public function init()
+    public function initNavigationInfo()
     {
-        parent::init();
-        Yii::setAlias("@devskyfly/yiiModuleAuthSecurity", __DIR__);
-        
-        /**
-         * Define controller namespace for console application.
-         */
-        if (Yii::$app instanceof \yii\console\Application) {
-            $this->controllerNamespace = 'devskyfly\yiiModuleAuthSecurity\console';
-        } 
+        $this->navigationInfo = [
+            [
+                "label" => "",
+                "sub_list" => [
+                    [
+                        "name" => "Пользователи",
+                        "route" => "auth/user"
+                    ],
+                    [
+                        "name" => "Черный список Id",
+                        "route" => "security/ip-blacklist"
+                    ]
+                ]
+            ]
+        ];
+    } 
+    /**
+     *
+     * @return string
+     */
+    public static function title()
+    {
+        return "Аутентификация и безопасность";
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public static function cssNamespace()
+    {
+        return 'devskyfly-yii-module-auth-security';
     }
     
+    public static function dir()
+    {
+        return __DIR__;
+    }
+
+    public static function vendor()
+    {
+        return 'devskyfly';
+    }
+
+    public static function package()
+    {
+        return "yii-module-auth-security";
+    }
+
     public static function tablesPrefix()
     {
         return "auth_security";

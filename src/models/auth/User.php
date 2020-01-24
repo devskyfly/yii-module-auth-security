@@ -1,6 +1,7 @@
 <?php
 namespace devskyfly\yiiModuleAuthSecurity\models\auth;
 
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
 use devskyfly\yiiModuleAuthSecurity\Module;
 use Yii;
 use yii\base\NotSupportedException;
@@ -22,12 +23,19 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+
+ class User extends AbstractUnnamedEntity implements IdentityInterface
+//class User extends ActiveRecord
+
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     
-    
+    public static function sectionCls()
+    {
+        return null;
+    }
+
     /**
      * @inheritdoc
      */

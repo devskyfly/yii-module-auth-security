@@ -1,16 +1,16 @@
 <?php
 /* $this yii/web/view */
-/* $list []*/
-/* $title string */
-use devskyfly\yiiModuleAuthSecurity\widgets\NavigationMenu;
+/* $module [] */
+use devskyfly\yiiModule\widgets\NavigationMenu;
 ?>
 
 <?
-$this->title = $title;
+$this->title = $module->title();
 ?>
+
 <div class="row">
     <div class="col-xs-3">
-        <?=NavigationMenu::widget(['list' => $list])?>
+        <?=NavigationMenu::widget(['info' => $module->getNavigationInfo(), "routePrefix" => $module->getRoute()])?>
     </div>
     <div class="col-xs-9">
     	
