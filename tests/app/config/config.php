@@ -23,7 +23,9 @@ return [
         array_merge($components,
             [
                 'urlManager' => [
-                    'showScriptName' => true,
+                    'enablePrettyUrl' => true,
+                    'showScriptName' => false,
+                    'enableStrictParsing' => false,
                 ],
                 'errorHandler' => [
                     'errorAction' => 'site/error',
@@ -40,7 +42,13 @@ return [
     ],
     'as accessfilter' => [
         'class' => 'yii\filters\AccessControl',
-        'except' => [ 'site/index', 'site/login', ],
+        'except' => [ 
+            'site/index', 
+            'site/login', 
+            'auth-security/default/*',
+            'auth-security/auth/user/*',
+            'auth-security/auth/security/ip-blacklist/*'
+        ],
         'rules' => [
             [
                 'allow' => true,

@@ -9,7 +9,10 @@ class Module extends AbstractModule
     public $loginTitle = "Login page";
     public $loginKeywords = "Login keywords";
     public $loginDescription = "Login description";
-    
+    public $userCls = "";
+    public $userFilterCls = "";
+
+    //public function init
 
     public function initNavigationInfo()
     {
@@ -71,4 +74,6 @@ class Module extends AbstractModule
     {
         return "/".(Module::getInstance())->id;
     }
+
+
 }

@@ -45,12 +45,13 @@ class UserController extends AbstractContentPanelController
         {
             return [
                 [
-                    "label"=>"main",
-                    "content"=>
+                    "label" => "main",
+                    "content" =>
                     $form->field($item, 'username')
                     .$form->field($item, 'created_at')
                     .$form->field($item, 'updated_at')
                     ->checkbox(['value'=>'Y', 'uncheckValue'=>'N', 'checked' => $item->active == 'Y'?true:false])
+                    .$form->field($item->extensions['userInfo'], 'name')
                 ],
             ];
         };

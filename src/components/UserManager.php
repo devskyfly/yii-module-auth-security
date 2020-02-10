@@ -24,7 +24,7 @@ class UserManager extends BaseObject
         $user->generateAuthKey();
 
         if ($user->validate()) {
-            if ($user->update()) {
+            if ($user->saveLikeItem()) {
                 return true;
             } else {
                 return false;
@@ -39,7 +39,7 @@ class UserManager extends BaseObject
         $user->email = $email;
 
         if ($user->validate()) {
-            if ($user->update()) {
+            if ($user->saveLikeItem()) {
                 return true;
             } else {
                 return false;
@@ -57,7 +57,7 @@ class UserManager extends BaseObject
         $user->status = $userCls::STATUS_ACTIVE;
 
         if ($user->validate()) {
-            if ($user->update()) {
+            if ($user->saveLikeItem()) {
                 return true;
             } else {
                 return false;
@@ -73,7 +73,7 @@ class UserManager extends BaseObject
         $user->status = $userCls::STATUS_DELETED;
 
         if ($user->validate()) {
-            if ($user->update()) {
+            if ($user->saveLikeItem()) {
                 return true;
             } else {
                 return false;
@@ -92,12 +92,11 @@ class UserManager extends BaseObject
      */
     public static function add(IdentityInterface $user, $password)
     {
-
-        $user->setPassword($password);            
+        $user->setPassword($password);
         $user->generateAuthKey();
 
         if ($user->validate()) {
-            if (!$user->insert()) {
+            if (!$user->insertLikeItem()) {
                 throw new ModuleException('Can\'t add user');
             }
             return true;
