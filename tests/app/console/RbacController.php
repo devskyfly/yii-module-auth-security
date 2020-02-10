@@ -1,6 +1,7 @@
 <?php
 namespace app\console;
 
+use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
