@@ -2,8 +2,9 @@
 namespace devskyfly\yiiModuleAuthSecurity\controllers\auth;
 
 use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
-use devskyfly\yiiModuleAuthSecurity\models\auth\User;
 use devskyfly\yiiModuleAuthSecurity\models\auth\UserFilter;
+use devskyfly\yiiModuleAuthSecurity\Module;
+use Yii;
 
 class UserController extends AbstractContentPanelController
 {
@@ -26,7 +27,7 @@ class UserController extends AbstractContentPanelController
      */
     public static function entityCls()
     {
-        return User::class;
+        return Yii::$app->user->identityClass;
     }
     
     public static function entityFilterCls()
@@ -43,15 +44,16 @@ class UserController extends AbstractContentPanelController
     {
         return function($form, $item)
         {
+            $module = Module::getInstance();
+            $optViewClb = $module->optEntityViewClb;
             return [
                 [
                     "label" => "main",
                     "content" =>
                     $form->field($item, 'username')
                     .$form->field($item, 'created_at')
-                    .$form->field($item, 'updated_at')
-                    ->checkbox(['value'=>'Y', 'uncheckValue'=>'N', 'checked' => $item->active == 'Y'?true:false])
-                    .$form->field($item->extensions['userInfo'], 'name')
+                    .$form->field($item, 'updated_at')->checkbox(['value'=>'Y', 'uncheckValue'=>'N', 'checked' => $item->active == 'Y'?true:false])
+                    .$optViewClb($form, $item)
                 ],
             ];
         };

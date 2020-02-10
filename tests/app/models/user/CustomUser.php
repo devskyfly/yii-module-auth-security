@@ -8,7 +8,7 @@ class CustomUser extends User
     public function extensions()
     {
         return [
-            "userInfo" => UserInfo::class
+            "UserInfo" => UserInfo::class
         ];
     }
 

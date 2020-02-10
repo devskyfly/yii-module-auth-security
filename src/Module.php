@@ -1,6 +1,7 @@
 <?php
 namespace devskyfly\yiiModuleAuthSecurity;
 
+use devskyfly\php56\types\Vrbl;
 use devskyfly\yiiModule\AbstractModule;
 
 class Module extends AbstractModule
@@ -9,10 +10,22 @@ class Module extends AbstractModule
     public $loginTitle = "Login page";
     public $loginKeywords = "Login keywords";
     public $loginDescription = "Login description";
-    public $userCls = "";
-    public $userFilterCls = "";
 
-    //public function init
+    /**
+     * $form:yii\widgets\ActiveForm, $item:AbstractItem
+     */
+    public $optEntityViewClb = null;
+
+    public function init()
+    {
+        parent::init();
+
+        if (Vrbl::isNull($this->optEntityViewClb)) {
+            $this->optEntityViewClb = function($form, $item) {
+                return "";
+            };
+        }
+    }
 
     public function initNavigationInfo()
     {
