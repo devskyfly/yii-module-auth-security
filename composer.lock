@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9bd982bb3a2d378e9277e2ea573680a4",
+    "content-hash": "bd909304a82535869d9a4d210499f62a",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -315,6 +315,42 @@
             "time": "2019-09-24T13:14:35+00:00"
         },
         {
+            "name": "devskyfly/yii-module",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/devskyfly/yii-module.git",
+                "reference": "8511cd164c5f77b57115c2b25c085c2d4b674e45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/devskyfly/yii-module/zipball/8511cd164c5f77b57115c2b25c085c2d4b674e45",
+                "reference": "8511cd164c5f77b57115c2b25c085c2d4b674e45",
+                "shasum": ""
+            },
+            "require": {
+                "devskyfly/php56": "^v1.1.0",
+                "yiisoft/yii2": "^v2.0.16"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "devskyfly\\yiiModule\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan",
+                    "email": "devskyfly@gmail.com"
+                }
+            ],
+            "time": "2020-02-11T12:18:51+00:00"
+        },
+        {
             "name": "devskyfly/yii-module-admin-panel",
             "version": "v2.x-dev",
             "source": {
@@ -512,6 +548,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "abandoned": true,
             "time": "2018-07-31T13:22:33+00:00"
         },
         {
@@ -562,6 +599,7 @@
                 "Guzzle",
                 "stream"
             ],
+            "abandoned": true,
             "time": "2016-04-13T16:32:01+00:00"
         },
         {
@@ -5421,7 +5459,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "devskyfly/yii-module-admin-panel": 20
+        "devskyfly/yii-module-admin-panel": 20,
+        "devskyfly/yii-module": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
