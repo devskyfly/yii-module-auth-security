@@ -88,12 +88,14 @@ class UserManager extends BaseObject
      *
      * @param IdentityInterface $user
      * @param string $password
+     * @param [] - [extensionName => [field=>val,...]]
      * @return boolean
      */
-    public static function add(IdentityInterface $user, $password)
+    public static function add(IdentityInterface $user, $password, $opt = [])
     {
         $user->setPassword($password);
         $user->generateAuthKey();
+        $user->loadLikeItem($opt);
 
         if ($user->validate()) {
             if (!$user->insertLikeItem()) {
