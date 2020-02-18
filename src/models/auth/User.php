@@ -8,6 +8,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * User model
@@ -24,13 +25,11 @@ use yii\db\ActiveRecord;
  * @property string $password write-only password
  */
 
- class User extends AbstractUnnamedEntity implements IdentityInterface
-//class User extends ActiveRecord
-
+class User extends AbstractUnnamedEntity implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-    
+
     public static function sectionCls()
     {
         return null;
@@ -59,10 +58,15 @@ use yii\db\ActiveRecord;
      */
     public function rules()
     {
-        return [
+        $rules = parent::rules();
+
+        $newRules = [
+            [['username', 'email'], 'string'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
+        $rules = ArrayHelper::merge($rules, $newRules);
+        return $rules;
     }
     
     /**

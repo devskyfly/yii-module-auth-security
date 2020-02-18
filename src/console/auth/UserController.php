@@ -140,7 +140,7 @@ class UserController extends Controller
             } else {
                 BaseConsole::output("Can't update user '{$user->username}' email.".PHP_EOL);
                 $errors = $user->errors;
-                if (count($errors > 0)) {
+                if (count($errors) > 0) {
                     BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
                     foreach ($errors as $error_key=>$error_item) {
                         BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
@@ -184,7 +184,7 @@ class UserController extends Controller
             } else {
                 BaseConsole::output("Can't update user '{$user->username}' email.".PHP_EOL);
                 $errors = $user->errors;
-                if (count($errors > 0)) {
+                if (count($errors) > 0) {
                     BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
                     foreach ($errors as $error_key=>$error_item) {
                         BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
@@ -231,7 +231,7 @@ class UserController extends Controller
             } else {
                 BaseConsole::output("Can't enable user '{$user->username}'.".PHP_EOL);
                 $errors = $user->errors;
-                if (count($errors > 0)) {
+                if (count($errors) > 0) {
                     BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
                     foreach ($errors as $error_key=>$error_item) {
                         BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
@@ -278,7 +278,7 @@ class UserController extends Controller
             } else {
                 BaseConsole::output("Can't enable user '{$user->username}'.".PHP_EOL);
                 $errors = $user->errors;
-                if (count($errors > 0)) {
+                if (count($errors)> 0) {
                     BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
                     foreach ($errors as $error_key=>$error_item) {
                         BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);
@@ -341,7 +341,7 @@ class UserController extends Controller
             } else {
                 BaseConsole::output("Can't add user '{$user->username}'.".PHP_EOL);
                 $errors = $user->errors;
-                if (count($errors > 0)) {
+                if (count($errors) > 0) {
                     BaseConsole::output("User '{$user->username}' is invalide.".PHP_EOL);
                     foreach ($errors as $error_key=>$error_item) {
                         BaseConsole::stdout($error_key.':'.$error_item.PHP_EOL);

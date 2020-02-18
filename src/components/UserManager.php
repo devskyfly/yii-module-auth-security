@@ -93,6 +93,7 @@ class UserManager extends BaseObject
      */
     public static function add(IdentityInterface $user, $password, $opt = [])
     {
+        $user->enableActive();
         $user->setPassword($password);
         $user->generateAuthKey();
         $user->loadLikeItem($opt);
