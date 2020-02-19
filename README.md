@@ -11,7 +11,7 @@ composer require devskyfly/yii-module-auth-security
 Migrations
 
 ```bash
-./yii migrate --migrationPath="vendor/devskyfly/yiiModuleAuthSecurity/migrations"
+./yii migrate --migrationPath="vendor/devskyfly/yii-module-auth-security/src/migrations/"
 ```
 
 ### Config
@@ -51,9 +51,9 @@ Config app modules
 'modules' => [
 	'auth-security' => [
 		"class" => "devskyfly\yiiModuleAuthSecurity\Module",
-		"loginTitle" = "Login page";
-    	"loginKeywords" = "Login keywords";
-    	"loginDescription" = "Login description";
+		"loginTitle" => "Login page",
+    	"loginKeywords" => "Login keywords",
+    	"loginDescription" => "Login description"
 	] 
 ]
 ```
